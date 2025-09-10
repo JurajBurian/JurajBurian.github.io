@@ -3,6 +3,8 @@ title: "Modeling with opaque types in Scala 3"
 #custom_js: [mouse_coords]
 date: 2021-02-06T00:00:00
 draft: false
+categories: [Scala 3]
+tags: [Scala opaque, Scala extension] 
 ---
 
 I like physics. The reason behind it is that physics has a beautiful and consistent type system.

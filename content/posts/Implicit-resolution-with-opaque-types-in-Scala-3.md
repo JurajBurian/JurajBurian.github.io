@@ -3,8 +3,9 @@ title: "Implicit resolution with opaque types in Scala 3"
 #custom_js: [mouse_coords]
 date: 2021-01-29T00:00:00
 draft: false
+categories: [Scala 3]
+tags: [Scala opaque]
 ---
-
 In this article we combine `opaque` type alias hierarchies with implicit resolutions  to do calculations.
 Scala 3 brings several language enhancements that give programmers even better control over types . One  of them is  ```opaque``` keyword.  
 For a deeper look what opaque is please visit  [opaques](http://dotty.epfl.ch/docs/reference/other-new-features/opaques.html) page at [dotty.epfl.ch](dotty.epfl.ch).
