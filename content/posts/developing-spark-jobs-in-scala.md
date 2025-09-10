@@ -94,7 +94,7 @@ When is it time to divide a project into modules? There are several reasons:
 * A modular build structure significantly reduces project complexity.
 * It establishes the foundation for future service extraction if the project grows substantially. Maybe this argument is more valid in application or service oriented projects.
 
-In the common module, we defined only one function to demonstrate the purpose:
+In the common module is defined only one function to demonstrate the purpose:
 
 ```Scala
 package jubu
@@ -308,7 +308,7 @@ class CalculationSpec extends FunSuite with Logging {
 * Close all resources in finally block
 * In `afterAll` method Kafka instance is closed
 
-#Main
+## Main
 
 `jubu/spark/Main.scala`
 ```scala 3
