@@ -107,6 +107,10 @@ params:
     keys: ["title", "permalink", "summary", "content"]
 menu:
   main:
+    - identifier: spark
+      name: spark
+      url: /spark/spark-cheat-sheet/
+      weight: 1
     - identifier: categories
       name: categories
       url: /categories/
@@ -125,3 +129,8 @@ markup:
     #guessSyntax: true
     lineNos: true
     #style: monokai
+  goldmark:
+    renderer:
+      hardWraps: false
+      unsafe: true
+      xhtml: true
