@@ -9,7 +9,9 @@ tags: [plantUML, Mermaid, Hugo]
 
 Well, actually, I must correct myself - Hugo does support Goat diagrams natively!
 
-In this article, I'll explore various ways to render diagrams in Hugo, including PlantUML and Mermaid, with practical examples. The repository of my blog is available [here](https://github.com/JurajBurian/JurajBurian.github.io).
+In this article, I'll explore various ways to render diagrams in Hugo, including PlantUML, Mermaid and Diagon.
+
+The repository of my blog is available [here](https://github.com/JurajBurian/JurajBurian.github.io).
 
 ## Goat diagrams
 Supported out of the box by Hugo. Here is an example: 
@@ -79,7 +81,7 @@ Before we start with Mermaid diagrams, let's first understand the structure of H
         ...
 ```
 To render mermaid diagrams, we need to configure hugo a little bit.<br>
-I use `PaperMod` theme and I don't want to change it, so I created directory `layouts` in root of my project.
+I use `PaperMod` theme and I don't want to change it, so I created directory `layouts/_default` in root of my project.
 Under this directory I created directory `_markdown`, In this directory then create a file `render-codeblock-mermaid.html` with the following content:
 ```html
 <pre class="mermaid">
@@ -88,7 +90,7 @@ Under this directory I created directory `_markdown`, In this directory then cre
 {{ .Page.Store.Set "hasMermaid" true }}
 ```
 We've associated the `mermaid` keyword with code blocks ```` ```mermaid ...``` ````. <br>
-Then we need to create another file in directory `layouts` named `baseof.html`
+Then we need to create another file in directory `layouts/_default` named `baseof.html`
 I borrowed `baseof.html` from the theme (`PaperMod` in my case) and added in to it next snipped of code: 
 ```html
 ... 
