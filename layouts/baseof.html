@@ -1,0 +1,114 @@
+{{- if lt hugo.Version "0.146.0" }}
+{{- errorf "=> hugo v0.146.0 or greater is required for hugo-PaperMod to build " }}
+{{- end -}}
+
+<!DOCTYPE html>
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}">
+
+<head>
+   {{- partial "head.html" . }}
+
+   <style>
+       .diagon-code {
+           font-family: "DejaVu Sans Mono", monospace;
+           font-variant-numeric: tabular-nums;
+           /* This enables Fira Code's programming ligatures */
+           font-feature-settings: "calt", "zero" on;
+           font-size: 12px;
+       }
+   </style>
+</head>
+
+<body class="
+{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) -}}
+{{- print "list" -}}
+{{- end -}}
+{{- if eq site.Params.defaultTheme `dark` -}}
+{{- print " dark" }}
+{{- end -}}
+" id="top">
+    {{- partialCached "header.html" . .Page -}}
+    <main class="main">
+        {{- block "main" . }}{{ end }}
+    </main>
+    {{ partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") (.Param "ShowCodeCopyButtons") -}}
+
+{{ if .Store.Get "hasMermaid" }}
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
+{{ end }}
+
+{{ if .Store.Get "hasPlantUML" }}
+<script type="module">
+  import { encode } from 'https://cdn.jsdelivr.net/npm/plantuml-encoder@1.4.0/+esm';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('pre.plantuml').forEach(function(block) {
+      const diagramText = block.dataset.diagram;
+      const encoded = encode(diagramText);
+      const server = "https://www.plantuml.com/plantuml/svg/";
+
+      const img = document.createElement('img');
+      img.src = server + encoded;
+      img.alt = "PlantUML Diagram";
+      img.style.maxWidth = '100%';
+
+      block.parentNode.replaceChild(img, block);
+    });
+  });
+</script>
+{{ end }}
+
+
+{{ if .Store.Get "hasDiagon" }}
+<script type="module">
+    // Import the entire module as an object
+    import * as diagonModule from 'https://esm.sh/diagonjs@1.6.1';
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            // Initialize the library. The exact function name might be 'init' or something else.
+            const diagon = await diagonModule.init();
+
+            // Process all Diagon code blocks
+            document.querySelectorAll('pre.diagon-code').forEach((codeBlock) => {
+                const input = codeBlock.textContent;
+                const translator = codeBlock.dataset.translator;
+                const style = "Unicode";
+
+                let output;
+                if (translator === 'math') {
+                    output = diagon.translate.math(input, { style: style });
+                } else if (translator === 'sequence') {
+                    output = diagon.translate.sequence(input, { style: style });
+                } else if (translator === 'tree') {
+                    output = diagon.translate.tree(input, { style: style });
+                } else if (translator === 'table') {
+                    output = diagon.translate.table(input, { style: style });
+                } else if (translator === 'frame') {
+                    output = diagon.translate.frame(input, { style: style });
+                } else if (translator === 'dag') {
+                    output = diagon.translate.graphDag(input, { style: style });
+                } else if (translator === 'grammar') {
+                    output = diagon.translate.grammar(input, {
+                        style: style
+                    });
+                }
+
+
+                if (output) {
+                    codeBlock.innerHTML = output;
+                }
+            });
+
+        } catch (error) {
+            console.error('Error loading or using Diagon.js:', error);
+        }
+    });
+</script>
+{{ end }}
+
+</body>
+</html>
