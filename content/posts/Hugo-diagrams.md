@@ -96,7 +96,10 @@ I borrowed `baseof.html` from the theme (`PaperMod` in my case) and added in to 
 {{ if .Store.Get "hasMermaid" }}
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: (localStorage.getItem('pref-theme') === 'dark') ? 'dark' : 'default'
+    });
 </script>
 {{ end }}
 ...
@@ -339,7 +342,35 @@ Column 1,Column 2,Column 3
 C++,Web,Assembly
 Javascript,CSS,HTML
 ```
+````
+```diagon-frame
+{
+  // let calculate employees having the smallest salary per department as lateral join with SQL API
+  getDepartmentDF.createTempView("ds")
+  getEmployeeDF.createTempView("es")
 
+  val result = spark
+    .sql(
+      """
+      |SELECT ds.id, ds.budget, es.name, ds.department, es.salary
+      |FROM ds
+      |INNER JOIN LATERAL (
+      |  SELECT *
+      |  FROM es
+      |  WHERE ds.id = es.dept_id and ds.budget < es.salary
+      |  ORDER BY salary ASC
+      |  LIMIT 3
+      |) AS es""".stripMargin
+    )
+
+  println("-------------------------------------------------------")
+  println("Lateral join result as SQL:")
+  result.explain(true)
+  result.show()
+}
+```
+````
+is rendered as:
 ```diagon-frame
 {
   // let calculate employees having the smallest salary per department as lateral join with SQL API
