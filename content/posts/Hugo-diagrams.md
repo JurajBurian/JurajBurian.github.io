@@ -67,9 +67,10 @@ Before we start with Mermaid diagrams, let's first understand the structure of H
 ```diagon-tree
 ~
  layouts
-    _markup
-        render-codeblock-*.html
-    baseof.html   
+    _default
+        _markup
+            render-codeblock-*.html
+        baseof.html   
  content
     posts
         post1.md
