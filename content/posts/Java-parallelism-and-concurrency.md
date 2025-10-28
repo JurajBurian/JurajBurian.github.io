@@ -388,25 +388,13 @@ This joiner behaves as follows:
 ### Joiner.allSuccessfulOrThrow()
 This joiner is the default joiner. It behaves as follows:
 
-{{ ... }}
-- If subtask fails exception is propagated.
+- Wait for all subtasks to complete.
+- If subtask fails exception is propagated and all remaining tasks are canceled.
+- Stream of subtasks is returned.
+
 
 > When calling `scope = StructuredTaskScope.open()` without an explicitly defined `Joiner`, the result of `scope.join()` is `Void`, requiring individual handling of subtasks.
 
-Here is example with defined `Joiner` instance :  
-
-```java
-    static Stream<String> execute() throws Throwable {
-        try (final var scope = StructuredTaskScope.open(
-                StructuredTaskScope.Joiner.<String>allSuccessfulOrThrow())
-        ) {
-
-            var task1 = scope.fork(callable(1));
-            var task2 = scope.fork(callable(2));
-            return scope.join().map(StructuredTaskScope.Subtask::get);
-        }
-    }
-```
 
 ### Joiner.awaitAll()
 The await all joiner behaves as follows:
