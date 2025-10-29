@@ -1,5 +1,5 @@
 ---
-title: "Creating applications in Scala cats"
+title: "Building application in Scala Cats"
 date: 2025-10-28T00:00:00
 draft: false
 categories: [Scala]
