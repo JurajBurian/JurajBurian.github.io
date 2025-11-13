@@ -27,7 +27,7 @@ trait UserService[F[_]] {
 We used the `Raise`/`Handle` approach, and our error model was defined as a sealed trait hierarchy (though one could use enums as well).
 
 In this article, I am going to refactor the application to use open errors. 
-The refactored application is located in a new branch: [https://github.com/JurajBurian/cats-user-demo/tree/open-errors](https://github.com/JurajBurian/cats-user-demo/tree/open-errors)
+The refactored application is located in a new branch:<br> [https://github.com/JurajBurian/cats-user-demo/tree/open-errors](https://github.com/JurajBurian/cats-user-demo/tree/open-errors)
 
 ## Motivation
 Generally, we want to provide precise descriptions of result types, including error types, at the API level.
@@ -47,7 +47,7 @@ In Scala 3, we can use type operators like `&` (intersection) and `|` (union) to
 
 But can we effectively use this mechanism to describe errors at the API level?
 
-> An open error model is a practical solution to certain limitations in Scala's compile-time type resolution. Specifically, it addresses how Scala's compiler resolves to the most abstract type by default. When using sealed trait hierarchies for errors, this prevents the use of union types for more precise error handling. 
+> _Remark:_ Open errors address Scala's type generalization in unions. When errors inherit from a common parent, the compiler collapses distinct error types into their shared parent type. This defeats the purpose of using union types for precise error handling. 
 
 In the Cats ecosystem, we have the `cats.data.EitherT` monad transformer, which allows us to combine an arbitrary effect type `F` with the behavior of `Either`. This becomes particularly powerful when combined with union types in Scala 3. 
 
@@ -666,4 +666,5 @@ Let's consider the ZIO monad for a moment. In ZIO, the IO monad is defined as `Z
 - `E` represents the error type
 - `A` represents the success type
 
-This means error handling is built into ZIO's type system - it's a bifunctor with distinct success and failure channels. In contrast, Cats Effect's `IO[A]` is simpler, where `A` represents the successful result type, and error handling is not part of the type parameters. Using EitherT at API level partially mimic this behavior.
+This means error handling is built into ZIO's type system - it's a bifunctor with distinct success and failure channels.<br>
+In contrast, Cats Effect's `IO[A]` is simpler, where `A` represents the successful result type, and error handling is not part of the type parameters. Using EitherT at API level partially mimic ZIO behavior.
